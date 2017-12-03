@@ -1,0 +1,167 @@
+<?php
+include_once('conn.php');
+session_start();
+
+?>
+
+<!DOCTYPE HTML>
+<HEAD>
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</HEAD>
+
+<style>
+	body{
+		background-image: url("img/back.png");
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		font-family: arial;
+	}
+	.content{
+		padding: 0 8% 5% 8%;
+	}
+	img {
+		width: 100%;
+		height: auto;
+		margin-top: 0;
+	}
+	.plate_no{
+		background-color: #D5DBDB;
+		text-align: center;
+		width: 75%;
+		border-radius: 20px;
+		border: 6px solid black;
+		padding: 1%;
+		margin-left: 10%;
+	}
+	h6{
+		font-size: 150%;
+		margin: 0% 2% 2% 2%;
+	}
+	h1{
+		font-size: 300%;
+		margin: 2% 2% 0% 2%;
+	}
+	.detail{
+		color: white;
+		font-weight: bold;
+		padding: 3%;
+	}
+	label{
+		color: #F7BF00;
+	}
+	li{
+		padding: 1%;
+		font-size: 150%;
+	}
+	ul {
+		list-style-type: none;
+	}
+	.report{
+		font-size: 200%;
+		padding: 2%;
+		font-weight: bold;
+		border-radius: 5px;
+		color: white;
+		background-color: #A93226;
+		border: none;
+	}
+	.back{
+		font-size:100px;
+		color: #F7BF00;
+		padding: 2%;
+	}
+	
+</style>
+
+<BODY>
+	<!-- Modal -->
+	<div class="modal fade" id="modalshit" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+		  	<div class="modal-content">
+				<div class="modal-header">
+			  		<button type="button" class="close" data-dismiss="modal">&times;</button>
+			  		<h4 class="modal-title">Report Vehicle</h4>
+				</div>
+				<div class="modal-body">
+					<form action="" method="post">	
+						<div class="form-group">
+							<div class="form-group">
+								<label style="color: black;">Why did you report this vehicle? Give us your reason.</label><br>
+								<select name="choices" class="form-control">
+									<option value="Car doesnt match the record on the app.">Car doesn't match the record on the app.</option>
+									<option value="Reported a vehicle used in crime.">Reported a vehicle used in crime.</option>
+									<option value="The person driving the vehicle has commited a crime.">The person driving the vehicle has commited a crime.</option>
+								</select><br>
+								<div class="form-group">
+									<label style="color: black;">Other Details:</label>
+									<input type="text" style="color: black;" class="form-control" name="details">
+									<br>
+									<label style="color: black;">Place you last seen the vehicle.</label><br>
+									<input type="text" style="color: black;" class="form-control" name="place">
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" name = "submit" class="btn btn-default" >Send</button>
+						</div>
+					</form>
+				</div>
+			</div>
+	  	</div>
+	</div>
+
+	<a href="main.html"> <i class="fa fa-arrow-circle-left back" ></i> </a>
+	<div class='content'>
+		<IMG SRC='pics/carnotfound.png'>
+		<div class='plate_no'>
+			<h1>Unknown</h1> 
+			<h6>Unknown</h6>
+		</div>
+		<div class='detail'>
+			<ul>
+				<li><label>PLATE NO.: </label> Unknown</li>
+				<li><label>BRAND: </label> Unknown</li>
+				<li><label>MODEL: </label> Unknown</li>
+				<li><label>YEAR: </label> Unknown</li>
+				<li><label>COLOR: </label> Unknown</li>
+				<li><label>REGISTER DATE: </label> Unknown</li>
+				<li><label>LTO APPREHENSION: </label> Unknown</li>
+				<li><label>LTO ALARM: </label> Unknown</li>
+			</ul>
+		</div>
+		<center><button class='report' type="button" data-toggle="modal" data-target="#modalshit">REPORT</button></center>
+	</div>
+</BODY>
+<!-- jQuery 2.2.3 -->
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<!-- iCheck -->
+<script src="plugins/iCheck/icheck.min.js"></script>
+</HTML>
+
+<?php
+	if(isset($_POST['submit']))
+	{
+		$userid = $_SESSION['userid'];
+		$platenumber = $_SESSION["plno"];
+		$cho = $_POST['choices'];
+		$det = $_POST['details'];
+		$plc = $_POST['place'];
+
+		echo $cho;
+		echo $det;
+		echo $plc;
+
+		$query = mysqli_query($conn,
+		
+		"insert into reported_vehicles  
+		(v_plate_no,v_reason,v_details,v_place,v_status,user_id)
+		values 
+		('$platenumber','$cho','$det','$plc','Pending','$userid')");
+
+		
+	}
+?>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<style>
+* body html{
+	margin: 0;
+	padding: 0;
+}
+body {
+  color: #000000;
+  font-family: Sans-Serif;
+  background-color: #A9CCE3;
+}
+
+a {
+  text-decoration: none;
+  color: #000000;
+}
+
+a:hover {
+  color: #222222
+}
+
+/* Dropdown */
+
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.dd-button {
+  display: inline-block;
+  border: 1px solid gray;
+  border-radius: 4px;
+  padding: 10px 30px 10px 20px;
+  background-color: #2C3E50;
+  cursor: pointer;
+  color: white;
+  white-space: nowrap;
+}
+
+.dd-button:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  width: 0; 
+  height: 0; 
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid black;
+}
+
+
+
+.dd-input {
+  display: none;
+}
+
+.dd-menu {
+  position: absolute;
+  top: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5%;
+  margin: 2px 0 0 0;
+  box-shadow: 0 0 6px 0 rgba(0,0,0,0.1);
+  background-color: #ffffff;
+  list-style-type: none;
+  width: 100%;
+  z-index: 1;
+}
+
+.dd-input + .dd-menu {
+  display: none;
+} 
+
+.dd-input:checked + .dd-menu {
+  display: block;
+} 
+
+.dd-menu li {
+  cursor: pointer;
+  white-space: wrap;
+  text-align: left;
+	padding-bottom: 2%;
+}
+
+.dd-menu li:hover {
+  background-color: #f6f6f6;
+}
+
+.dd-menu li a {
+  display: block;
+  margin: -10px -20px;
+}
+
+.dd-menu li.divider{
+  padding: 0;
+  border-bottom: 1px solid #cccccc;
+}
+
+h4{
+	background-color: #2C3E50;
+	color: white;
+	padding: 2% 20%;
+	margin: 0;
+	font-weight: bold;
+}
+h6{
+	padding: 2% 20%;
+	font-weight: bold;
+	margin: 0;
+	color: #2C3E50;
+	background-color: white;
+	margin-bottom: 3%;
+}
+span{
+	color: #E67E22;
+	font-weight: bold;
+}
+
+</style>
+
+<body>
+<center>
+
+<h4>MY HISTORY</h4>
+<h6>Reported Vehicles</h6>
+<!--LOOPING-->
+<label class="dropdown">
+  <div class="dd-button">
+    Mandaluyong City: ZTR-123
+  </div>
+
+  <input type="checkbox" class="dd-input" id="test">
+
+  <?php
+    $get_reports = mysqli_query($conn, "SELECT * FROM reported_vehicles")or die(mysqli_error());
+    while($row = mysqli_fetch_array($get_reports))
+    {
+        $plate_no = $row['v_plate_no'];
+        $reason = $row['v_reason'];
+        $details = $row['v_details'];
+        $place = $row['v_place'];
+        $user_id = $row['user_id'];
+  ?>
+    <ul class="dd-menu">
+    <li><span>INCORRECT PLATE NO.:</span><?php echo $plate_no; ?></li>
+    <li><span>INCORRECT BRAND:</span> VIVO</li>
+    <li><span>DATE:</span> November 20, 2017</li>
+    <li><span>PLACE:</span> <?php echo $place; ?></li>
+    <li><span>STATUS:</span> Unread/Read/Read and Action</li>
+    <li><span>MESSAGE:</span> Pa daan daan po sya sa tapat ng bahay namin. di ko alam kung bakit. baka may case lang na ganon? If ever, please contact me through my mobile number. thank you :)</li>
+    </ul>
+
+  <?php
+   }  
+  ?>
+</label>
+<!--END LOOPING-->
+</center>
+
+</body>
+</html>
